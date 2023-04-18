@@ -1,7 +1,6 @@
 package adapter_test
 
 import (
-	"io/ioutil"
 	"mini-paas/app/infrastructure/adapter"
 	"testing"
 )
@@ -12,11 +11,11 @@ func TestListPodList(t *testing.T) {
 }
 
 func TestApplyYaml(t *testing.T) {
-	var file = "/Users/fhc/work/MiniPaaS/conf/demo-app.yaml"
-	src, err := ioutil.ReadFile(file)
-	if err != nil {
-	}
-	var yamlStr = string(src)
+	// var file = "/Users/fhc/work/MiniPaaS/conf/demo-app.yaml"
+	// src, err := ioutil.ReadFile(file)
+	// if err != nil {
+	// }
+	// var yamlStr = string(src)
 	var kubernetesClient = adapter.KubernetesClient{}
-	kubernetesClient.HttpApply(yamlStr, "default")
+	kubernetesClient.GetApp("first-vela-app", "default")
 }

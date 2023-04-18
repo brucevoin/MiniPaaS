@@ -16,19 +16,22 @@ import (
 type KubernetesClient struct {
 }
 
-func (k KubernetesClient) GetApp(appName string, namespace string) {
+func (k KubernetesClient) GetApp(appName string, namespace string) string {
 	//TODO
 	config, err := clientcmd.BuildConfigFromFlags("", "/Users/fhc/kube/config")
 	if err != nil {
 		panic(err.Error())
 	}
-	clientset, err := kubernetes.NewForConfig(config)
+	client, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err)
 	}
-	data, err := clientset.RESTClient().Get().AbsPath("/apis/core.oam.dev/v1beta1/namespaces/default/applications/first-vela-app").DoRaw(context.TODO())
-	yamlstr, err := bytesToYAML(data)
-	fmt.Println(yamlstr)
+	data, err := client.RESTClient().Get().AbsPath("/apis/core.oam.dev/v1beta1/namespaces/default/applications/first-vela-app").DoRaw(context.TODO())
+	yamlString, err := bytesToYAML(data)
+	if err != nil {
+		panic(err)
+	}
+	return yamlString
 }
 
 func bytesToYAML(b []byte) (string, error) {
