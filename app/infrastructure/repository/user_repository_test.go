@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"mini-paas/app/domain/model"
+	model "mini-paas/app/domain/model/user"
 	"mini-paas/app/domain/port"
 	"testing"
 )

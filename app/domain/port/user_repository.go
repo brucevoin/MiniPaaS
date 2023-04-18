@@ -1,6 +1,6 @@
 package port
 
-import "mini-paas/app/domain/model"
+import model "mini-paas/app/domain/model/user"
 
 type UserRepository interface {
 	SaveUser(user *model.User)

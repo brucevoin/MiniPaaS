@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"mini-paas/app/domain/model"
+	model "mini-paas/app/domain/model/user"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

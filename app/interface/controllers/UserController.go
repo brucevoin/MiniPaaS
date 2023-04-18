@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	domain "mini-paas/app/domain/model"
+	domain "mini-paas/app/domain/model/user"
 
 	"github.com/revel/revel"
 )
