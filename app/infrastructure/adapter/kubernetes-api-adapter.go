@@ -2,14 +2,19 @@ package adapter
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"path/filepath"
 
 	"gopkg.in/yaml.v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
+	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 	"k8s.io/kubectl/pkg/scheme"
 )
 
@@ -33,6 +38,38 @@ func (k KubernetesClient) GetApp(appName string, namespace string) string {
 	}
 	return yamlString
 }
+func (k KubernetesClient) CreateApp(appYaml string, namespace string) string {
+	var kubeconfig *string
+	if home := homedir.HomeDir(); home != "" {
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+	} else {
+		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+	}
+	flag.Parse()
+
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	if err != nil {
+		panic(err)
+	}
+	client, err := dynamic.NewForConfig(config)
+	if err != nil {
+		panic(err)
+	}
+
+	deploymentRes := schema.GroupVersionResource{Group: "core.oam.dev", Version: "v1beta1", Resource: "applications"}
+
+	kk := KubernetesClient{}
+	deployment, err := kk.YamlToUnstructured(appYaml)
+
+	// Create Deployment
+	fmt.Println("Creating app...")
+	result, err := client.Resource(deploymentRes).Namespace("default").Create(context.TODO(), deployment, metav1.CreateOptions{})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Created app %q.\n", result.GetName())
+	return result.GetName()
+}
 
 func bytesToYAML(b []byte) (string, error) {
 	var data map[interface{}]interface{}
@@ -47,7 +84,7 @@ func bytesToYAML(b []byte) (string, error) {
 	return string(res), nil
 }
 
-func yamlToUnstructured(yamlStr string) (*unstructured.Unstructured, error) {
+func (k KubernetesClient) YamlToUnstructured(yamlStr string) (*unstructured.Unstructured, error) {
 	dec := json.NewYAMLSerializer(json.DefaultMetaFactory, scheme.Scheme, scheme.Scheme)
 	obj := &unstructured.Unstructured{}
 	_, gvk, err := dec.Decode([]byte(yamlStr), nil, obj)

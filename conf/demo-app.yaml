@@ -9,7 +9,7 @@ spec:
       properties:
         image: oamdev/hello-world
         ports:
-         - port: 8000
+         - port: 8080
            expose: true
       traits:
         - type: scaler
