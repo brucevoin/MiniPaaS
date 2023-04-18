@@ -31,7 +31,7 @@ func (k KubernetesClient) GetApp(appName string, namespace string) string {
 	if err != nil {
 		panic(err)
 	}
-	data, err := client.RESTClient().Get().AbsPath("/apis/core.oam.dev/v1beta1/namespaces/default/applications/first-vela-app").DoRaw(context.TODO())
+	data, err := client.RESTClient().Get().AbsPath("/apis/core.oam.dev/v1beta1/namespaces/" + namespace + "/applications/" + appName).DoRaw(context.TODO())
 	yamlString, err := bytesToYAML(data)
 	if err != nil {
 		panic(err)
@@ -39,15 +39,15 @@ func (k KubernetesClient) GetApp(appName string, namespace string) string {
 	return yamlString
 }
 func (k KubernetesClient) CreateApp(appYaml string, namespace string) string {
-	var kubeconfig *string
+	var kubeConfig *string
 	if home := homedir.HomeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+		kubeConfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	} else {
-		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+		kubeConfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
 	flag.Parse()
 
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeConfig)
 	if err != nil {
 		panic(err)
 	}
