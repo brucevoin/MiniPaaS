@@ -4,7 +4,7 @@ parameter: {
 	image:  string
 	memory: string
 	cpu:    string
-	port:   string
+	port:   [...int]
 	url:    string
 }
 split: "---"

@@ -19,11 +19,12 @@ func TestCUEFill(t *testing.T) {
 	templateString := string(data)
 	template := ctx.CompileString(templateString)
 
-	parameterString := `person: {
-    name: "fff"
-    age: 123
-    address: "abcdefg"
+	parameterString := `parameter: {
+    name: ["fff"]
+    age: [123,345]
 }`
+
+	parameterString = "parameter: {\n  age: [123,345]\n  name: [\"component-1\"]\n}\n"
 	parameter := ctx.CompileString(parameterString)
 
 	result := template.Fill(parameter)

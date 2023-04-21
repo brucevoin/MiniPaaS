@@ -1,12 +1,7 @@
 parameter: {
-    name:    string
-    age:     int
+    name:    [...string]
+    age:     [...int]
 }
 
-components: {
-    
-}
 hello: parameter.name
     world: parameter.age
-
-

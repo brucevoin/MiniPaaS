@@ -1,7 +1,7 @@
 parameter: {
 	name:       string
 	url:        string
-	components: string
+	components: [...string]
 }
 
 split: "---"
@@ -11,7 +11,7 @@ kind:       "Application"
 metadata: name: parameter.name
 spec: {
 	components: 
-		[{parameter.components}]
+		parameter.components
 	policies: [
 		{
 			name: "target-default"

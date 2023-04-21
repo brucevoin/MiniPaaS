@@ -37,22 +37,23 @@ func (a *Application) Rendering() string {
 	componentsString := a.Components[0].Rendering()
 	fmt.Printf(componentsString)
 	lines := strings.Split(componentsString, "\n")
-	newstring := string("")
+	componentsString = string("")
 	for _, s := range lines {
 		if s == "" {
 			continue
 		}
 		s = "    " + s
-		newstring += s + "\n"
+		componentsString += s + "\n"
 	}
 
 	a.Parameters = []Parameter{
 		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
 		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
 	}
-	a.Parameters = append(a.Parameters, Parameter{ParameterKey: "components", ParameterValue: newstring})
+	a.Parameters = append(a.Parameters, Parameter{ParameterKey: "components", ParameterValue: `["component-1"]`})
 
 	appString := a.Template.FillTemplate(a.Parameters)
+	appString = strings.Replace(appString, "component-1", componentsString, -1)
 
 	fmt.Printf(appString)
 	//rendering basic information

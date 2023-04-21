@@ -52,7 +52,12 @@ func (u Template) BuildParamString(parameters []Parameter) string {
 	sb.WriteString("parameter: {\n")
 	for _, p := range parameters {
 		//TODO Check if Parameters is valid
-		sb.WriteString("  " + p.ParameterKey + ": \"" + p.ParameterValue + "\"\n")
+		if strings.Contains(p.ParameterValue, "[") {
+			sb.WriteString("  " + p.ParameterKey + ": " + p.ParameterValue + "\n")
+		} else {
+			sb.WriteString("  " + p.ParameterKey + ": \"" + p.ParameterValue + "\"\n")
+
+		}
 	}
 	sb.WriteString("}\n")
 	return sb.String()
