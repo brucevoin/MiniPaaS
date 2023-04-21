@@ -1,7 +1,6 @@
 package model
 
 import (
-	"io/ioutil"
 	"strings"
 
 	"cuelang.org/go/cue"
@@ -17,8 +16,9 @@ type Template struct {
 
 // []Parameter用户输入的参数
 func (u *Template) FillTemplate(parameters []Parameter) string {
+	//** 版本1
+	ctx, instance := u.getTemplateInstance(u.Content)
 	var parameterString = u.BuildParamString(parameters)
-	ctx, instance := u.getTemplateInstance()
 	param := ctx.CompileString(parameterString)
 	if param.Err() != nil {
 		panic(param.Err())
@@ -36,16 +36,10 @@ func (u *Template) FillTemplate(parameters []Parameter) string {
 	return substring
 }
 
-func (u Template) getTemplateInstance() (*cue.Context, cue.Value) {
-	var file = "/Users/fhc/work/mini-paas/conf/application-template.cue"
-	src, err := ioutil.ReadFile(file)
-	if err != nil {
-		panic(err)
-	}
+func (u Template) getTemplateInstance(templateString string) (*cue.Context, cue.Value) {
+
 	var ctx = cuecontext.New()
-	instance := ctx.CompileBytes(src)
-	//从字符串读取
-	//instance := ctx.CompileString(src)
+	instance := ctx.CompileString(templateString)
 	if instance.Err() != nil {
 		panic(instance.Err())
 	}

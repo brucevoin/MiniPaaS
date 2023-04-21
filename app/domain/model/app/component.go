@@ -11,5 +11,6 @@ func (u *Component) addParameter(parameters []Parameter) {
 }
 
 func (u *Component) Rendering() string {
+	//TODO
 	return u.Template.FillTemplate(u.Parameters)
 }

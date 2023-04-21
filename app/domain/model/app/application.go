@@ -1,5 +1,10 @@
 package model
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Application struct {
 	Name        string
 	Project     string
@@ -13,10 +18,47 @@ func (a *Application) AddComponent(component *Component) {
 	a.Components = append(a.Components, *component)
 
 }
+func (a *Application) RemoveComponent(component *Component) {
+	var index int = -1
+	for i, elem := range a.Components {
+		if elem.Name == component.Name {
+			index = i
+		}
+	}
+	if index == -1 {
+		//TODO Error Can not find component
+	} else {
+		a.Components = append(a.Components[:index], a.Components[index+1:]...)
+	}
+}
 
-func (a *Application) Rendering() string{
+func (a *Application) Rendering() string {
+
+	componentsString := a.Components[0].Rendering()
+	fmt.Printf(componentsString)
+	lines := strings.Split(componentsString, "\n")
+	newstring := string("")
+	for _, s := range lines {
+		if s == "" {
+			continue
+		}
+		s = "    " + s
+		newstring += s + "\n"
+	}
+
+	a.Parameters = []Parameter{
+		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
+		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
+	}
+	a.Parameters = append(a.Parameters, Parameter{ParameterKey: "components", ParameterValue: newstring})
+
+	appString := a.Template.FillTemplate(a.Parameters)
+
+	fmt.Printf(appString)
 	//rendering basic information
+
 	//rendering components
+	//rendering policy
 	//rendering workflow
 	return ""
 }

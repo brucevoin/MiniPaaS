@@ -1,10 +1,7 @@
 parameter: {
-	name:   string
-	image:  string
-	memory: string
-	cpu:    string
-	port:   string
-	url:    string
+	name:       string
+	url:        string
+	components: string
 }
 
 split: "---"
@@ -13,42 +10,8 @@ apiVersion: "core.oam.dev/v1beta1"
 kind:       "Application"
 metadata: name: parameter.name
 spec: {
-	components: [{
-		// name: parameter.name
-		// type: "Webservice"
-		// properties: {
-		// 	image:           parameter.image
-		// 	imagePullPolicy: "IfNotPresent"
-		// 	memory:          parameter.memory
-		// 	cpu:             parameter.cpu
-		// 	ports: [
-		// 		{
-		// 			port: parameter.port
-		// 		},
-		// 	]
-		// 	env: [
-		// 		{
-		// 			name: "value"
-		// 		},
-		// 	]
-		// 	traits: [
-		// 		{
-		// 			type: "expose"
-		// 			properties: {
-		// 				port: parameter.port
-		// 				type: "NodePort"
-		// 			}
-		// 		},
-		// 		{
-		// 			type: "scaler"
-		// 			properties: {
-		// 				replicas: 1
-		// 			}
-		// 		},
-		// 	]
-		// }
-
-	}]
+	components: 
+		[{parameter.components}]
 	policies: [
 		{
 			name: "target-default"
