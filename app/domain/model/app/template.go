@@ -15,7 +15,7 @@ type Template struct {
 }
 
 // []Parameter用户输入的参数
-func (u *Template) FillTemplate(parameters []Parameter) string {
+func (u *Template) FillTemplate(parameters []UserParameter) string {
 	//** 版本1
 	ctx, instance := u.getTemplateInstance(u.Content)
 	var parameterString = u.BuildParamString(parameters)
@@ -47,7 +47,7 @@ func (u Template) getTemplateInstance(templateString string) (*cue.Context, cue.
 
 }
 
-func (u Template) BuildParamString(parameters []Parameter) string {
+func (u Template) BuildParamString(parameters []UserParameter) string {
 	var sb strings.Builder
 	sb.WriteString("parameter: {\n")
 	for _, p := range parameters {

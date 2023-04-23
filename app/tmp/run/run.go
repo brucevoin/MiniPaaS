@@ -131,6 +131,18 @@ func Register() {
 			
 		})
 	
+	revel.RegisterController((*controllers1.ApplicationController)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "Applications",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			
+		})
+	
 	revel.RegisterController((*controllers1.UserController)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{

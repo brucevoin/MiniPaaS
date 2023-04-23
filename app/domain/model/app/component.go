@@ -3,10 +3,10 @@ package model
 type Component struct {
 	Name       string
 	Template   Template
-	Parameters []Parameter
+	Parameters []UserParameter
 }
 
-func (u *Component) addParameter(parameters []Parameter) {
+func (u *Component) addParameter(parameters []UserParameter) {
 	u.Parameters = append(u.Parameters, parameters...)
 }
 

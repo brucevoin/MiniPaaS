@@ -110,6 +110,18 @@ func (_ tApp) Index(
 }
 
 
+type tApplicationController struct {}
+var ApplicationController tApplicationController
+
+
+func (_ tApplicationController) Applications(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("ApplicationController.Applications", args).URL
+}
+
+
 type tUserController struct {}
 var UserController tUserController
 

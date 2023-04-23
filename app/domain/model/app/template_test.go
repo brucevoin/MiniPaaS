@@ -46,15 +46,30 @@ func TestRenderingApp(t *testing.T) {
 		{ParameterKey: "port", ParameterValue: "[8088, 8099]"},
 		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
 	}
+
+	compUserParameters := []UserParameter{
+		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
+		{ParameterKey: "image", ParameterValue: "nginx:1.21.3"},
+		{ParameterKey: "memory", ParameterValue: "512Mi"},
+		{ParameterKey: "cpu", ParameterValue: "0.5"},
+		{ParameterKey: "port", ParameterValue: "[8088, 8099]"},
+		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
+	}
 	var compfile = "/Users/fhc/work/MiniPaaS/conf/component-template.cue"
 	compsrc, err := ioutil.ReadFile(compfile)
 	if err != nil {
 		panic(err)
 	}
 	var comptemplate = Template{Id: "123", Content: string(compsrc), Parameters: compparameters}
-	component := Component{Name: "comp1", Template: comptemplate, Parameters: compparameters}
+	component := Component{Name: "comp1", Template: comptemplate, Parameters: compUserParameters}
 
-	appparameters := []Parameter{
+	templateTarameters := []Parameter{
+		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
+		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
+		{ParameterKey: "components", ParameterValue: "comp1"},
+	}
+
+	appUserParameters := []UserParameter{
 		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
 		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
 		{ParameterKey: "components", ParameterValue: "comp1"},
@@ -65,9 +80,9 @@ func TestRenderingApp(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	var apptemplate = Template{Id: "123", Content: string(appsrc), Parameters: appparameters}
+	var apptemplate = Template{Id: "123", Content: string(appsrc), Parameters: templateTarameters}
 
-	app := Application{Name: "testApp", Project: "pro1", Description: "", Template: apptemplate, Parameters: appparameters, Components: []Component{component}}
+	app := Application{Name: "testApp", Project: "pro1", Description: "", Template: apptemplate, Parameters: appUserParameters, Components: []Component{component}}
 
 	app.Rendering()
 
@@ -82,20 +97,29 @@ func TestRenderingComponent(t *testing.T) {
 		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
 	}
 
+	userParameters := []UserParameter{
+		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
+		{ParameterKey: "image", ParameterValue: "nginx:1.21.3"},
+		{ParameterKey: "memory", ParameterValue: "512Mi"},
+		{ParameterKey: "cpu", ParameterValue: "0.5"},
+		{ParameterKey: "port", ParameterValue: "[8088, 8099]"},
+		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
+	}
+
 	var file = "/Users/fhc/work/MiniPaaS/conf/component-template.cue"
 	src, err := ioutil.ReadFile(file)
 	if err != nil {
 		panic(err)
 	}
 	var template = Template{Id: "123", Content: string(src), Parameters: parameters}
-	component := Component{Name: "comp1", Template: template, Parameters: parameters}
+	component := Component{Name: "comp1", Template: template, Parameters: userParameters}
 	result := component.Rendering()
 	fmt.Println(result)
 
 }
 
 func TestBuildParamaters(t *testing.T) {
-	parameters := []Parameter{
+	parameters := []UserParameter{
 		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
 		{ParameterKey: "image", ParameterValue: "nginx:1.21.3"},
 		{ParameterKey: "memory", ParameterValue: "512Mi"},

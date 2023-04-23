@@ -1,9 +1,8 @@
 package app
 
 import (
-	"github.com/revel/revel"
 	_ "github.com/revel/modules"
-
+	"github.com/revel/revel"
 )
 
 var (
@@ -12,6 +11,8 @@ var (
 
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
+
+	ResourceContext *Context
 )
 
 func init() {
@@ -31,6 +32,11 @@ func init() {
 		revel.BeforeAfterFilter,       // Call the before and after filter functions
 		revel.ActionInvoker,           // Invoke the action.
 	}
+
+	//注册Application service
+
+	ResourceContext = NewContext()
+	ResourceContext.Init()
 
 	// Register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script

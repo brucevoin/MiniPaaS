@@ -10,7 +10,7 @@ type Application struct {
 	Project     string
 	Description string
 	Template    Template
-	Parameters  []Parameter
+	Parameters  []UserParameter
 	Components  []Component
 }
 
@@ -46,11 +46,11 @@ func (a *Application) Rendering() string {
 		componentsString += s + "\n"
 	}
 
-	a.Parameters = []Parameter{
+	a.Parameters = []UserParameter{
 		{ParameterKey: "name", ParameterValue: "mytestaaaaaaa"},
 		{ParameterKey: "url", ParameterValue: "http://172.16.120.13:12001/callback/collect/"},
 	}
-	a.Parameters = append(a.Parameters, Parameter{ParameterKey: "components", ParameterValue: `["component-1"]`})
+	a.Parameters = append(a.Parameters, UserParameter{ParameterKey: "components", ParameterValue: `["component-1"]`})
 
 	appString := a.Template.FillTemplate(a.Parameters)
 	appString = strings.Replace(appString, "component-1", componentsString, -1)
@@ -61,5 +61,5 @@ func (a *Application) Rendering() string {
 	//rendering components
 	//rendering policy
 	//rendering workflow
-	return ""
+	return appString
 }
