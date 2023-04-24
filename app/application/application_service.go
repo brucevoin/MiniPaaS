@@ -2,22 +2,34 @@ package application
 
 import (
 	"fmt"
+	"mini-paas/app/application/dto"
+	"mini-paas/app/application/port"
 	model "mini-paas/app/domain/model/app"
-	port "mini-paas/app/domain/port"
 )
 
-type ApplicationService struct {
+type ApplicationService interface {
+	GetApplication(id string) (*dto.ApplicationDTO, error)
+	CreateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error)
+	UpdateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error)
+	DeleteApplication(id string) error
+	ListApplications() ([]dto.ApplicationDTO, error)
+	RunApplication(application *dto.ApplicationDTO) error
+}
+
+//Impl
+
+type ApplicationServiceImpl struct {
 	ApplicationRepository port.ApplicationRepository `inject:"ApplicationRepository"`
 }
 
-func (a ApplicationService) NewApplicationService() *ApplicationService {
+func NewApplicationService() *ApplicationServiceImpl {
 	//applicationRepo := repository.NewApplicationRepository()
-	return &ApplicationService{
+	return &ApplicationServiceImpl{
 		//repo: applicationRepo,
 	}
 }
 
-func (s *ApplicationService) CreateApplication(application *port.ApplicationDTO) (*port.ApplicationDTO, error) {
+func (s *ApplicationServiceImpl) CreateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error) {
 	applicationDO := model.Application{Name: "test", Project: "testProject"}
 	//DO something with application
 	if applicationDO.Components == nil {
@@ -34,18 +46,18 @@ func (s *ApplicationService) CreateApplication(application *port.ApplicationDTO)
 	return nil, nil
 }
 
-func (s *ApplicationService) GetApplication(id string) (*port.ApplicationDTO, error) {
+func (s *ApplicationServiceImpl) GetApplication(id string) (*dto.ApplicationDTO, error) {
 	return nil, nil
 }
-func (s *ApplicationService) UpdateApplication(application *port.ApplicationDTO) (*port.ApplicationDTO, error) {
+func (s *ApplicationServiceImpl) UpdateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error) {
 	return nil, nil
 }
-func (s *ApplicationService) DeleteApplication(id string) error {
+func (s *ApplicationServiceImpl) DeleteApplication(id string) error {
 	return nil
 }
-func (s *ApplicationService) ListApplications() ([]port.ApplicationDTO, error) {
+func (s *ApplicationServiceImpl) ListApplications() ([]dto.ApplicationDTO, error) {
 	return nil, nil
 }
-func (s *ApplicationService) RunApplication(application *port.ApplicationDTO) error {
+func (s *ApplicationServiceImpl) RunApplication(application *dto.ApplicationDTO) error {
 	return nil
 }

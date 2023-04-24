@@ -40,7 +40,7 @@ func init() {
 	//Register resource from Application、Repo...etc
 
 	IOCContainer = infrastructure.NewContainer()
-	IOCContainer.Register("applicationService", application.ApplicationService.NewApplicationService(application.ApplicationService{}))
+	IOCContainer.Register("applicationService", application.NewApplicationService())
 	IOCContainer.Register("ApplicationRepository", repository.NewApplicationRepository())
 	IOCContainer.InjectAll()
 
