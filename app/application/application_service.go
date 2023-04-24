@@ -7,15 +7,6 @@ import (
 	model "mini-paas/app/domain/model/app"
 )
 
-type ApplicationService interface {
-	GetApplication(id string) (*dto.ApplicationDTO, error)
-	CreateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error)
-	UpdateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error)
-	DeleteApplication(id string) error
-	ListApplications() ([]dto.ApplicationDTO, error)
-	RunApplication(application *dto.ApplicationDTO) error
-}
-
 //Impl
 
 type ApplicationServiceImpl struct {

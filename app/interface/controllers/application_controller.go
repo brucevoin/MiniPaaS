@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"mini-paas/app"
-	"mini-paas/app/application"
+	"mini-paas/app/application/port"
 
 	"github.com/revel/revel"
 )
@@ -14,7 +14,7 @@ type ApplicationController struct {
 
 func (c ApplicationController) Applications() revel.Result {
 	applicationService := app.IOCContainer.GetResource("applicationService")
-	s, ok := applicationService.(application.ApplicationService)
+	s, ok := applicationService.(port.ApplicationService)
 	if !ok {
 		fmt.Println("类型断言失败")
 	}
