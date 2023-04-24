@@ -1,6 +1,10 @@
 package app
 
 import (
+	"mini-paas/app/application"
+	"mini-paas/app/infrastructure"
+	"mini-paas/app/infrastructure/repository"
+
 	_ "github.com/revel/modules"
 	"github.com/revel/revel"
 )
@@ -12,7 +16,7 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 
-	ResourceContext *Context
+	IOCContainer *infrastructure.Container
 )
 
 func init() {
@@ -33,10 +37,12 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
-	//注册Application service
+	//Register resource from Application、Repo...etc
 
-	ResourceContext = NewContext()
-	ResourceContext.Init()
+	IOCContainer = infrastructure.NewContainer()
+	IOCContainer.Register("applicationService", application.ApplicationService.NewApplicationService(application.ApplicationService{}))
+	IOCContainer.Register("ApplicationRepository", repository.NewApplicationRepository())
+	IOCContainer.InjectAll()
 
 	// Register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script

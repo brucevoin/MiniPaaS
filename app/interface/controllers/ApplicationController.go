@@ -13,7 +13,7 @@ type ApplicationController struct {
 }
 
 func (c ApplicationController) Applications() revel.Result {
-	applicationService := app.ResourceContext.GetResource("applicationService")
+	applicationService := app.IOCContainer.GetResource("applicationService")
 	s, ok := applicationService.(port.ApplicationService)
 	if !ok {
 		fmt.Println("类型断言失败")

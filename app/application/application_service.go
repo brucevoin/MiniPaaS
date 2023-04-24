@@ -4,17 +4,16 @@ import (
 	"fmt"
 	model "mini-paas/app/domain/model/app"
 	port "mini-paas/app/domain/port"
-	"mini-paas/app/infrastructure/repository"
 )
 
 type ApplicationService struct {
-	repo port.ApplicationRepository
+	ApplicationRepository port.ApplicationRepository `inject:"ApplicationRepository"`
 }
 
 func (a ApplicationService) NewApplicationService() *ApplicationService {
-	applicationRepo := repository.NewApplicationRepository()
+	//applicationRepo := repository.NewApplicationRepository()
 	return &ApplicationService{
-		repo: applicationRepo,
+		//repo: applicationRepo,
 	}
 }
 
@@ -25,12 +24,12 @@ func (s *ApplicationService) CreateApplication(application *port.ApplicationDTO)
 		fmt.Println("the application Components is nil")
 		//panic(application)
 	}
-	if s.repo == nil {
+	if s.ApplicationRepository == nil {
 		fmt.Println("the repo is nil")
-		panic(s.repo)
+		panic(s.ApplicationRepository)
 	}
 
-	s.repo.Create(&applicationDO)
+	s.ApplicationRepository.Create(&applicationDO)
 	fmt.Println("Application created successfully")
 	return nil, nil
 }
