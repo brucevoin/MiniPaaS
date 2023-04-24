@@ -2,6 +2,8 @@ package adapter
 
 import "mini-paas/app/application/dto"
 
+//Implementation of interface port.UserService
+
 type UserServiceImpl struct {
 }
 

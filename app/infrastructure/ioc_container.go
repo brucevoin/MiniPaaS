@@ -61,7 +61,7 @@ func needInject(object interface{}) bool {
 	return false
 }
 
-// 只支持一级依赖自动注入
+// 依赖注入
 func (c *Container) InjectAll() error {
 	for _, v := range c.resources {
 		if needInject(v) {

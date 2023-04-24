@@ -7,17 +7,14 @@ import (
 	model "mini-paas/app/domain/model/app"
 )
 
-//Impl
+//Implementation of interface port.ApplicationService
 
 type ApplicationServiceImpl struct {
 	ApplicationRepository port.ApplicationRepository `inject:"ApplicationRepository"`
 }
 
 func NewApplicationService() *ApplicationServiceImpl {
-	//applicationRepo := repository.NewApplicationRepository()
-	return &ApplicationServiceImpl{
-		//repo: applicationRepo,
-	}
+	return &ApplicationServiceImpl{}
 }
 
 func (s *ApplicationServiceImpl) CreateApplication(application *dto.ApplicationDTO) (*dto.ApplicationDTO, error) {
