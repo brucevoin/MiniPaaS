@@ -1,7 +1,7 @@
 package app
 
 import (
-	"mini-paas/app/application"
+	"mini-paas/app/application/adapter"
 	"mini-paas/app/infrastructure"
 	"mini-paas/app/infrastructure/repository"
 
@@ -40,7 +40,7 @@ func init() {
 	//Register resource from Application、Repo...etc
 
 	IOCContainer = infrastructure.NewContainer()
-	IOCContainer.Register("applicationService", application.NewApplicationService())
+	IOCContainer.Register("applicationService", adapter.NewApplicationService())
 	IOCContainer.Register("ApplicationRepository", repository.NewApplicationRepository())
 	IOCContainer.InjectAll()
 

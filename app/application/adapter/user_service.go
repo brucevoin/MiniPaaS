@@ -1,4 +1,4 @@
-package application
+package adapter
 
 import "mini-paas/app/application/dto"
 
